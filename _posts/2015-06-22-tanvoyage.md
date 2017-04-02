@@ -1,0 +1,10 @@
+---
+layout: post
+title: Voyage to the Great Indian Desert
+category: travel 
+tags: travel 
+comments: true
+---
+
+The link to the orignal post can be found [here](https://90percenthumour.wordpress.com/2015/06/22/voyage-to-the-great-indian-desert/)
+

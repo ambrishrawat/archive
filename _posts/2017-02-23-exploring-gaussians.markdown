@@ -2,7 +2,7 @@
 layout: post
 title:  "Exploring Gaussians"
 date:   2017-02-23 22:56:35 +0000
-categories: early ML
+categories: ML
 tags: [ML, Gaussians]
 comments: true
 use_math: true

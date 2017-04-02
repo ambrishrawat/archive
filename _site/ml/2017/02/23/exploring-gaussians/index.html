@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="en-us">
+
+  <head>
+  <link href="http://gmpg.org/xfn/11" rel="profile">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+
+  <!-- Enable responsiveness on mobile devices-->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+
+  <title>
+    
+      Exploring Gaussians &middot; 90%Humour
+    
+  </title>
+
+  <!-- CSS -->
+  <link rel="stylesheet" href="/archive/public/css/main.css">
+  <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=PT+Serif:400,400italic,700%7CPT+Sans:400">
+
+  <!-- Icons -->
+  <link rel="apple-touch-icon-precomposed" sizes="144x144" href="/archive/public/apple-touch-icon-precomposed.png">
+  <link rel="shortcut icon" href="/archive/public/favicon.ico">
+
+  <!-- RSS -->
+  <link rel="alternate" type="application/rss+xml" title="RSS" href="/atom.xml">
+
+  
+  <script type="text/javascript" async src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_SVG"> </script>
+  <script type="text/x-mathjax-config">
+MathJax.Hub.Config({ tex2jax: { inlineMath: [ ['$','$'], ["\\(","\\)"] ], processEscapes: true } });
+  </script>
+  
+</head>
+
+
+  <body>
+
+    <!-- Target for toggling the sidebar `.sidebar-checkbox` is for regular
+     styles, `#sidebar-checkbox` for behavior. -->
+<input type="checkbox" class="sidebar-checkbox" id="sidebar-checkbox">
+
+<!-- Toggleable sidebar -->
+<div class="sidebar" id="sidebar">
+  
+  <div class="sidebar-item">
+    <div class="sidebar-personal-info">
+  <!--
+      <div class="sidebar-personal-info-section">
+        <a href="http://gravatar.com/">
+          <img src="http://www.gravatar.com/avatar/?s=350" title="View on Gravatar" alt="View on Gravatar" />
+        </a>
+      </div>
+      <div class="sidebar-personal-info-section">
+        <p>stories and musings from all walks of life.</p>
+      </div>
+      
+  -->
+    </div>
+  </div>
+
+  <nav class="sidebar-nav">
+    
+      
+      
+      
+
+      
+
+      <span class="">
+        <a class="sidebar-nav-item " href="http://90percenthumour.com">
+          Home
+        </a>
+
+        
+      </span>
+
+    
+      
+      
+      
+
+      
+
+      <span class="foldable">
+        <a class="sidebar-nav-item " href="/archive/">
+          Blog
+        </a>
+
+        
+          
+            
+            
+            
+              <a class="sidebar-nav-item sidebar-nav-item-sub " href="/archive/blog/categories/">
+                Categories
+              </a>
+          
+        
+          
+            
+            
+            
+              <a class="sidebar-nav-item sidebar-nav-item-sub " href="/archive/blog/tags/">
+                Tags
+              </a>
+          
+        
+      </span>
+
+    
+      
+      
+      
+
+      
+
+      <span class="">
+        <a class="sidebar-nav-item " href="http://90percenthumour.com/about/">
+          About
+        </a>
+
+        
+      </span>
+
+    
+
+    <span class="sidebar-nav-item">Currently v1.0.0</span>
+  </nav>
+
+  <div class="sidebar-item">
+    <p>
+    &copy; 2017 90%Humour. This work is liscensed under <a href="http://creativecommons.org/licenses/by-nc/4.0/">CC BY-NC 4.0</a>.
+    </p>
+  </div>
+
+  
+  <div class="sidebar-item">
+    <p>
+    Powered by <a href="http://jekyllrb.com">jekyll</a> </a>
+    </p>
+  </div>
+</div>
+
+
+    <!-- Wrap is the content to shift when toggling the sidebar. We wrap the
+         content to avoid any CSS collisions with our real content. -->
+    <div class="wrap">
+      <div class="masthead">
+        <div class="container">
+          <h3 class="masthead-title">
+            <a href="/archive/" title="Home" title="90%Humour">
+              <img class="masthead-logo" src="/archive/public/logo.jpg"/>
+            </a>
+            <!--<small>stories and musings from all walks of life</small>-->
+          </h3>
+        </div>
+      </div>
+
+      <div class="container content">
+        <div class="post">
+  <h1 class="post-title">Exploring Gaussians</h1>
+  <span class="post-date">23 Feb 2017</span>
+   | 
+  
+    <a href="/archive/blog/tags/#ml" class="post-tag">ML</a>
+  
+    <a href="/archive/blog/tags/#gaussians" class="post-tag">Gaussians</a>
+  
+  
+  <article>
+    <h2 id="where-does-the-story-begin">Where does the story begin?</h2>
+
+<p>In this note, I wish to explore Gaussians from the first principles of Bayesian reasoning. Most of this note is just a re-iteration of [] and [].</p>
+
+<p>The centrality of Gaussians in probability theory sources from the Central Limit Theorem. They exhibit a multitude of desirable properties that accounts for all the paparazzi they attarct. In particular, the correspondence between sample moments, maximum likelihood estimates and sufficient stastics makes Gaussians or more generally the exponential family distributions makes them extremely interesting.</p>
+
+<p>If you are faced with a Gaussian model for observations, one of the first tasks at hand is to estimate its parameters. To begin with, suppose a set of raw observations is available as a large collection of one-dimensional real numbers.</p>
+
+<p><img src="http://localhost:4000/blog/assets/general-gm.png" alt="My helpful screenshot" />
+<img src="http://localhost:4000/blog/assets/post/classic.png" alt="My helpful screenshot" /></p>
+
+<p><strong>Observations</strong>: What does they look like? And what are some of their statistical properties?</p>
+
+<p><strong>Model</strong>: Visual inspection and sample statiscs provide reasonble motivation to model the observations as samples from a Gaussian distribution.</p>
+
+<script type="math/tex; mode=display">x_s \sim p(x;\mu,\sigma)</script>
+
+<p>In particular each <script type="math/tex">x_i</script> is a sample,</p>
+
+<script type="math/tex; mode=display">p(x_i) = (2\pi \sigma^2)^{\frac{-1}{2}} exp(\frac{-(x_i-\mu)^2}{2\sigma^2})</script>
+
+<p><strong>Inference</strong> For principled inference, we ofcourse wish to invoke the Bayes’ rule as applied to posterior of the parameters, <script type="math/tex">\theta = \{\mu,\sigma\}</script>.</p>
+
+<script type="math/tex; mode=display">p(\theta|X,m) = \frac{p(X|\theta,m)p(\theta|m)}{p(X|m)}</script>
+
+<p>Ideally, we could place any joint-prior on <script type="math/tex">\mu</script> and <script type="math/tex">\sigma</script> and application of Bayes’ rule with result in an appropriate posterior distribution. The graphical model should therefore, in its general setting should be something like this,</p>
+
+<p>If we seek an actual expression of a posterior, we need to be more specific about out choice of prior. For instance, we could rely on conjugacy. Let’s look at a few simplified models first to motivate these conjugate priors.</p>
+
+<p><strong>Basic Model 1</strong>: With <script type="math/tex">\sigma_0</script> as a hyperamater (like <script type="math/tex">\gamma</script> in the previous case).</p>
+
+<script type="math/tex; mode=display">% <![CDATA[
+\begin{align*}
+\text{posterior: } &p(\mu|X,\sigma_0,\eta) = \mathcal{N}(\mu|\mu_n,\sigma_n^2), \quad \mu_n = \frac{\frac{1}{\sigma_0^2}\sum_{x \in X} x + \frac{\eta_\mu}{\eta_\sigma^2}}{\frac{1}{\eta_\sigma^2} + \frac{n}{\sigma_0^2}} \quad \sigma_n^2 = \frac{1}{\frac{1}{\eta_\sigma^2} + \frac{n}{\sigma_0^2}}\\
+\text{predictive distribution: } & p(x^*|X,\sigma_0,\eta) = \mathcal{N}(x^*|\mu_n,\sigma_n^2+\sigma_0^2), \quad \mu_n = \frac{\frac{1}{\sigma_0^2}\sum_{x \in X} x + \frac{\eta_\mu}{\alpha_\sigma^2}}{\frac{1}{\eta_\sigma^2} + \frac{n}{\sigma_0^2}} \quad \sigma_n^2 = \frac{1}{\frac{1}{\eta_\sigma^2} + \frac{n}{\sigma_0^2}}
+\end{align*} %]]></script>
+
+<p><strong>Basic Model 2</strong>: With <script type="math/tex">\mu_0</script> as a hyperamater.</p>
+
+<script type="math/tex; mode=display">% <![CDATA[
+\begin{align*}
+\text{posterior: } &p(\sigma^2|X,\mu_0,\beta) = \text{IG}(\sigma^2|\alpha_n,\beta_n), \quad \alpha_n = \zeta_\alpha + \frac{n}{2} \quad \beta_n = \zeta_\beta + \frac{1}{2}\sum_{x\in X}(x-\mu_0)\\
+\text{predictive distribution: } & p(x^*|X,\mu_0,\zeta) = \frac{\Gamma(\zeta_\alpha + \frac{1}{2})}{\Gamma(\zeta_\alpha)} \frac{1}{(2\pi\zeta_\beta)^{\frac{1}{2}}}\frac{1}{\big(1+\frac{1}{2\zeta_\beta}(x^*-\mu_0)^2\big)^{\zeta_\alpha+\frac{1}{2}}}
+\end{align*} %]]></script>
+
+<p><strong>Joint-prior Model 1</strong>: With a joint prior on both $\mu$ and $\sigma$ (Normal-Gamma prior)</p>
+
+<script type="math/tex; mode=display">% <![CDATA[
+\begin{align*}
+\text{posterior: } &p(\mu,\sigma^2|X,\gamma) = \text{NIG}(\mu,\sigma^2|\mu_n,\kappa_n,\alpha_n,\beta_n)\\
+& \mu_n = \frac{\gamma_\kappa\gamma_\mu + \sum_{x \in X}x}{\frac{1}{\gamma_\kappa}+n}\\
+& \frac{1}{\kappa_n} = \frac{1}{\gamma_\kappa} + n, \\
+& \alpha_n = \gamma_\alpha + \frac{n}{2}\\
+& \beta_n = \gamma_\beta + \frac{1}{2}\Big(\gamma_\mu^2\gamma_\kappa + \sum_{x\in X}(x-\mu_n^2\kappa_n)\Big)\\
+\text{predictive distribution: } & \text{this is \textit{pending}}
+\end{align*} %]]></script>
+
+
+  </article>
+</div>
+
+<div class="related">
+  <h2>Related Posts</h2>
+  <ul class="related-posts">
+    
+      <li>
+        <h3>
+          <a href="/archive/travel/2017/03/13/chadar/">
+            Chadar Trek Video
+            <small>13 Mar 2017</small>
+          </a>
+        </h3>
+      </li>
+    
+      <li>
+        <h3>
+          <a href="/archive/ml/2017/02/07/generative/">
+            Create to understand
+            <small>07 Feb 2017</small>
+          </a>
+        </h3>
+      </li>
+    
+      <li>
+        <h3>
+          <a href="/archive/travel/2016/12/21/britain/">
+            Our Brief Brexploration
+            <small>21 Dec 2016</small>
+          </a>
+        </h3>
+      </li>
+    
+  </ul>
+</div>
+
+
+<div class="comments">
+  <h2>Comments</h2>
+  <div id="disqus_thread"></div>
+  <script>
+var disqus_config = function () {
+  this.page.url = 'http://localhost:4000/ml/2017/02/23/exploring-gaussians/'; // Replace PAGE_URL with your page's canonical URL variable
+  this.page.identifier = '/ml/2017/02/23/exploring-gaussians'; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+};
+(function() {
+  var d = document, s = d.createElement('script');
+  s.src = '//ambrishrawat.disqus.com/embed.js';
+  s.setAttribute('data-timestamp', +new Date());
+  (d.head || d.body).appendChild(s);
+})();
+  </script>
+  <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a></noscript>
+</div>
+
+
+      </div>
+    </div>
+
+    <label for="sidebar-checkbox" class="sidebar-toggle"></label>
+
+    <script>
+      (function(document) {
+        var toggle = document.querySelector('.sidebar-toggle');
+        var sidebar = document.querySelector('#sidebar');
+        var checkbox = document.querySelector('#sidebar-checkbox');
+
+        document.addEventListener('click', function(e) {
+          var target = e.target;
+
+          if (target === toggle) {
+            checkbox.checked = !checkbox.checked;
+            e.preventDefault();
+          } else if (checkbox.checked && !sidebar.contains(target)) {
+            /* click outside the sidebar when sidebar is open */
+            checkbox.checked = false;
+          }
+        }, false);
+      })(document);
+    </script>
+    
+    <script>
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){ (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o), m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m) })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-00000000-1', 'auto');
+ga('send', 'pageview');
+    </script>
+    
+  </body>
+  
+  <script id="dsq-count-scr" src="//ambrishrawat.disqus.com/count.js" async></script>
+  
+</html>
