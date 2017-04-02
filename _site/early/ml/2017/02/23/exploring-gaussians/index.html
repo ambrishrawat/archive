@@ -11,7 +11,7 @@
 
   <title>
     
-      Introducing Lanyon &middot; 90%Humour
+      Exploring Gaussians &middot; 90%Humour
     
   </title>
 
@@ -161,49 +161,73 @@ MathJax.Hub.Config({ tex2jax: { inlineMath: [ ['$','$'], ["\\(","\\)"] ], proces
 
       <div class="container content">
         <div class="post">
-  <h1 class="post-title">Introducing Lanyon</h1>
-  <span class="post-date">02 Jan 2014</span>
+  <h1 class="post-title">Exploring Gaussians</h1>
+  <span class="post-date">23 Feb 2017</span>
    | 
+  
+    <a href="/archive/blog/tags/#ml" class="post-tag">ML</a>
+  
+    <a href="/archive/blog/tags/#gaussians" class="post-tag">Gaussians</a>
   
   
   <article>
-    <p>Lanyon is an unassuming <a href="http://jekyllrb.com">Jekyll</a> theme that places content first by tucking away navigation in a hidden drawer. It’s based on <a href="http://getpoole.com">Poole</a>, the Jekyll butler.</p>
+    <h2 id="where-does-the-story-begin">Where does the story begin?</h2>
 
-<h3 id="built-on-poole">Built on Poole</h3>
+<p>In this note, I wish to explore Gaussians from the first principles of Bayesian reasoning. Most of this note is just a re-iteration of [] and [].</p>
 
-<p>Poole is the Jekyll Butler, serving as an upstanding and effective foundation for Jekyll themes by <a href="https://twitter.com/mdo">@mdo</a>. Poole, and every theme built on it (like Lanyon here) includes the following:</p>
+<p>The centrality of Gaussians in probability theory sources from the Central Limit Theorem. They exhibit a multitude of desirable properties that accounts for all the paparazzi they attarct. In particular, the correspondence between sample moments, maximum likelihood estimates and sufficient stastics makes Gaussians or more generally the exponential family distributions makes them extremely interesting.</p>
 
-<ul>
-  <li>Complete Jekyll setup included (layouts, config, <a href="/404">404</a>, <a href="/atom.xml">RSS feed</a>, posts, and <a href="/about">example page</a>)</li>
-  <li>Mobile friendly design and development</li>
-  <li>Easily scalable text and component sizing with <code class="highlighter-rouge">rem</code> units in the CSS</li>
-  <li>Support for a wide gamut of HTML elements</li>
-  <li>Related posts (time-based, because Jekyll) below each post</li>
-  <li>Syntax highlighting, courtesy Pygments (the Python-based code snippet highlighter)</li>
-</ul>
+<p>If you are faced with a Gaussian model for observations, one of the first tasks at hand is to estimate its parameters. To begin with, suppose a set of raw observations is available as a large collection of one-dimensional real numbers.</p>
 
-<h3 id="lanyon-features">Lanyon features</h3>
+<p><img src="http://localhost:4000/blog/assets/general-gm.png" alt="My helpful screenshot" />
+<img src="http://localhost:4000/blog/assets/post/classic.png" alt="My helpful screenshot" /></p>
 
-<p>In addition to the features of Poole, Lanyon adds the following:</p>
+<p><strong>Observations</strong>: What does they look like? And what are some of their statistical properties?</p>
 
-<ul>
-  <li>Toggleable sliding sidebar (built with only CSS) via <strong>☰</strong> link in top corner</li>
-  <li>Sidebar includes support for textual modules and a dynamically generated navigation with active link support</li>
-  <li>Two orientations for content and sidebar, default (left sidebar) and <a href="https://github.com/poole/lanyon#reverse-layout">reverse</a> (right sidebar), available via <code class="highlighter-rouge">&lt;body&gt;</code> classes</li>
-  <li><a href="https://github.com/poole/lanyon#themes">Eight optional color schemes</a>, available via <code class="highlighter-rouge">&lt;body&gt;</code> classes</li>
-</ul>
+<p><strong>Model</strong>: Visual inspection and sample statiscs provide reasonble motivation to model the observations as samples from a Gaussian distribution.</p>
 
-<p><a href="https://github.com/poole/lanyon#readme">Head to the readme</a> to learn more.</p>
+<script type="math/tex; mode=display">x_s \sim p(x;\mu,\sigma)</script>
 
-<h3 id="browser-support">Browser support</h3>
+<p>In particular each <script type="math/tex">x_i</script> is a sample,</p>
 
-<p>Lanyon is by preference a forward-thinking project. In addition to the latest versions of Chrome, Safari (mobile and desktop), and Firefox, it is only compatible with Internet Explorer 9 and above.</p>
+<script type="math/tex; mode=display">p(x_i) = (2\pi \sigma^2)^{\frac{-1}{2}} exp(\frac{-(x_i-\mu)^2}{2\sigma^2})</script>
 
-<h3 id="download">Download</h3>
+<p><strong>Inference</strong> For principled inference, we ofcourse wish to invoke the Bayes’ rule as applied to posterior of the parameters, <script type="math/tex">\theta = \{\mu,\sigma\}</script>.</p>
 
-<p>Lanyon is developed on and hosted with GitHub. Head to the <a href="https://github.com/poole/lanyon">GitHub repository</a> for downloads, bug reports, and features requests.</p>
+<script type="math/tex; mode=display">p(\theta|X,m) = \frac{p(X|\theta,m)p(\theta|m)}{p(X|m)}</script>
 
-<p>Thanks!</p>
+<p>Ideally, we could place any joint-prior on <script type="math/tex">\mu</script> and <script type="math/tex">\sigma</script> and application of Bayes’ rule with result in an appropriate posterior distribution. The graphical model should therefore, in its general setting should be something like this,</p>
+
+<p>If we seek an actual expression of a posterior, we need to be more specific about out choice of prior. For instance, we could rely on conjugacy. Let’s look at a few simplified models first to motivate these conjugate priors.</p>
+
+<p><strong>Basic Model 1</strong>: With <script type="math/tex">\sigma_0</script> as a hyperamater (like <script type="math/tex">\gamma</script> in the previous case).</p>
+
+<script type="math/tex; mode=display">% <![CDATA[
+\begin{align*}
+\text{posterior: } &p(\mu|X,\sigma_0,\eta) = \mathcal{N}(\mu|\mu_n,\sigma_n^2), \quad \mu_n = \frac{\frac{1}{\sigma_0^2}\sum_{x \in X} x + \frac{\eta_\mu}{\eta_\sigma^2}}{\frac{1}{\eta_\sigma^2} + \frac{n}{\sigma_0^2}} \quad \sigma_n^2 = \frac{1}{\frac{1}{\eta_\sigma^2} + \frac{n}{\sigma_0^2}}\\
+\text{predictive distribution: } & p(x^*|X,\sigma_0,\eta) = \mathcal{N}(x^*|\mu_n,\sigma_n^2+\sigma_0^2), \quad \mu_n = \frac{\frac{1}{\sigma_0^2}\sum_{x \in X} x + \frac{\eta_\mu}{\alpha_\sigma^2}}{\frac{1}{\eta_\sigma^2} + \frac{n}{\sigma_0^2}} \quad \sigma_n^2 = \frac{1}{\frac{1}{\eta_\sigma^2} + \frac{n}{\sigma_0^2}}
+\end{align*} %]]></script>
+
+<p><strong>Basic Model 2</strong>: With <script type="math/tex">\mu_0</script> as a hyperamater.</p>
+
+<script type="math/tex; mode=display">% <![CDATA[
+\begin{align*}
+\text{posterior: } &p(\sigma^2|X,\mu_0,\beta) = \text{IG}(\sigma^2|\alpha_n,\beta_n), \quad \alpha_n = \zeta_\alpha + \frac{n}{2} \quad \beta_n = \zeta_\beta + \frac{1}{2}\sum_{x\in X}(x-\mu_0)\\
+\text{predictive distribution: } & p(x^*|X,\mu_0,\zeta) = \frac{\Gamma(\zeta_\alpha + \frac{1}{2})}{\Gamma(\zeta_\alpha)} \frac{1}{(2\pi\zeta_\beta)^{\frac{1}{2}}}\frac{1}{\big(1+\frac{1}{2\zeta_\beta}(x^*-\mu_0)^2\big)^{\zeta_\alpha+\frac{1}{2}}}
+\end{align*} %]]></script>
+
+<p><strong>Joint-prior Model 1</strong>: With a joint prior on both $\mu$ and $\sigma$ (Normal-Gamma prior)</p>
+
+<script type="math/tex; mode=display">% <![CDATA[
+\begin{align*}
+\text{posterior: } &p(\mu,\sigma^2|X,\gamma) = \text{NIG}(\mu,\sigma^2|\mu_n,\kappa_n,\alpha_n,\beta_n)\\
+& \mu_n = \frac{\gamma_\kappa\gamma_\mu + \sum_{x \in X}x}{\frac{1}{\gamma_\kappa}+n}\\
+& \frac{1}{\kappa_n} = \frac{1}{\gamma_\kappa} + n, \\
+& \alpha_n = \gamma_\alpha + \frac{n}{2}\\
+& \beta_n = \gamma_\beta + \frac{1}{2}\Big(\gamma_\mu^2\gamma_\kappa + \sum_{x\in X}(x-\mu_n^2\kappa_n)\Big)\\
+\text{predictive distribution: } & \text{this is \textit{pending}}
+\end{align*} %]]></script>
+
 
   </article>
 </div>
@@ -223,18 +247,18 @@ MathJax.Hub.Config({ tex2jax: { inlineMath: [ ['$','$'], ["\\(","\\)"] ], proces
     
       <li>
         <h3>
-          <a href="/archive/early/ml/2017/02/23/exploring-gaussians/">
-            Exploring Gaussians
-            <small>23 Feb 2017</small>
+          <a href="/archive/2017/02/07/generative/">
+            Create to understand
+            <small>07 Feb 2017</small>
           </a>
         </h3>
       </li>
     
       <li>
         <h3>
-          <a href="/archive/2017/02/07/generative/">
-            Create to understand
-            <small>07 Feb 2017</small>
+          <a href="/archive/2016/12/10/vfe/">
+            Common sense reduced to calculus. More calculus.
+            <small>10 Dec 2016</small>
           </a>
         </h3>
       </li>
@@ -248,8 +272,8 @@ MathJax.Hub.Config({ tex2jax: { inlineMath: [ ['$','$'], ["\\(","\\)"] ], proces
   <div id="disqus_thread"></div>
   <script>
 var disqus_config = function () {
-  this.page.url = 'http://localhost:4000/2014/01/02/introducing-lanyon/'; // Replace PAGE_URL with your page's canonical URL variable
-  this.page.identifier = '/2014/01/02/introducing-lanyon'; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+  this.page.url = 'http://localhost:4000/early/ml/2017/02/23/exploring-gaussians/'; // Replace PAGE_URL with your page's canonical URL variable
+  this.page.identifier = '/early/ml/2017/02/23/exploring-gaussians'; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
 };
 (function() {
   var d = document, s = d.createElement('script');

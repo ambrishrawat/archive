@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
 
- <title>Codinfox Lanyon</title>
- <link href="http://localhost:4000http://90percenthumour.com/archive//atom.xml" rel="self"/>
- <link href="http://localhost:4000http://90percenthumour.com/archive//"/>
- <updated>2017-04-02T11:00:24+01:00</updated>
+ <title>90%Humour</title>
+ <link href="http://localhost:4000/archive/atom.xml" rel="self"/>
+ <link href="http://localhost:4000/archive/"/>
+ <updated>2017-04-02T13:12:06+01:00</updated>
  <id>http://localhost:4000</id>
  <author>
    <name>90%Humour</name>
@@ -14,9 +14,254 @@
  
  <entry>
    <title>Introducing Lanyon</title>
+   <link href="http://localhost:4000/trial/2017/03/31/introducing-90percenthumour/"/>
+   <updated>2017-03-31T00:00:00+01:00</updated>
+   <id>http://localhost:4000/archive/trial/2017/03/31/introducing-90percenthumour</id>
+   <content type="html">
+</content>
+ </entry>
+ 
+ <entry>
+   <title>Exploring Gaussians</title>
+   <link href="http://localhost:4000/early/ml/2017/02/23/exploring-gaussians/"/>
+   <updated>2017-02-23T22:56:35+00:00</updated>
+   <id>http://localhost:4000/archive/early/ml/2017/02/23/exploring-gaussians</id>
+   <content type="html">&lt;h2 id=&quot;where-does-the-story-begin&quot;&gt;Where does the story begin?&lt;/h2&gt;
+
+&lt;p&gt;In this note, I wish to explore Gaussians from the first principles of Bayesian reasoning. Most of this note is just a re-iteration of [] and [].&lt;/p&gt;
+
+&lt;p&gt;The centrality of Gaussians in probability theory sources from the Central Limit Theorem. They exhibit a multitude of desirable properties that accounts for all the paparazzi they attarct. In particular, the correspondence between sample moments, maximum likelihood estimates and sufficient stastics makes Gaussians or more generally the exponential family distributions makes them extremely interesting.&lt;/p&gt;
+
+&lt;p&gt;If you are faced with a Gaussian model for observations, one of the first tasks at hand is to estimate its parameters. To begin with, suppose a set of raw observations is available as a large collection of one-dimensional real numbers.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;http://localhost:4000/blog/assets/general-gm.png&quot; alt=&quot;My helpful screenshot&quot; /&gt;
+&lt;img src=&quot;http://localhost:4000/blog/assets/post/classic.png&quot; alt=&quot;My helpful screenshot&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Observations&lt;/strong&gt;: What does they look like? And what are some of their statistical properties?&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Model&lt;/strong&gt;: Visual inspection and sample statiscs provide reasonble motivation to model the observations as samples from a Gaussian distribution.&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;x_s \sim p(x;\mu,\sigma)&lt;/script&gt;
+
+&lt;p&gt;In particular each &lt;script type=&quot;math/tex&quot;&gt;x_i&lt;/script&gt; is a sample,&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;p(x_i) = (2\pi \sigma^2)^{\frac{-1}{2}} exp(\frac{-(x_i-\mu)^2}{2\sigma^2})&lt;/script&gt;
+
+&lt;p&gt;&lt;strong&gt;Inference&lt;/strong&gt; For principled inference, we ofcourse wish to invoke the Bayes’ rule as applied to posterior of the parameters, &lt;script type=&quot;math/tex&quot;&gt;\theta = \{\mu,\sigma\}&lt;/script&gt;.&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;p(\theta|X,m) = \frac{p(X|\theta,m)p(\theta|m)}{p(X|m)}&lt;/script&gt;
+
+&lt;p&gt;Ideally, we could place any joint-prior on &lt;script type=&quot;math/tex&quot;&gt;\mu&lt;/script&gt; and &lt;script type=&quot;math/tex&quot;&gt;\sigma&lt;/script&gt; and application of Bayes’ rule with result in an appropriate posterior distribution. The graphical model should therefore, in its general setting should be something like this,&lt;/p&gt;
+
+&lt;p&gt;If we seek an actual expression of a posterior, we need to be more specific about out choice of prior. For instance, we could rely on conjugacy. Let’s look at a few simplified models first to motivate these conjugate priors.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Basic Model 1&lt;/strong&gt;: With &lt;script type=&quot;math/tex&quot;&gt;\sigma_0&lt;/script&gt; as a hyperamater (like &lt;script type=&quot;math/tex&quot;&gt;\gamma&lt;/script&gt; in the previous case).&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;% &lt;![CDATA[
+\begin{align*}
+\text{posterior: } &amp;p(\mu|X,\sigma_0,\eta) = \mathcal{N}(\mu|\mu_n,\sigma_n^2), \quad \mu_n = \frac{\frac{1}{\sigma_0^2}\sum_{x \in X} x + \frac{\eta_\mu}{\eta_\sigma^2}}{\frac{1}{\eta_\sigma^2} + \frac{n}{\sigma_0^2}} \quad \sigma_n^2 = \frac{1}{\frac{1}{\eta_\sigma^2} + \frac{n}{\sigma_0^2}}\\
+\text{predictive distribution: } &amp; p(x^*|X,\sigma_0,\eta) = \mathcal{N}(x^*|\mu_n,\sigma_n^2+\sigma_0^2), \quad \mu_n = \frac{\frac{1}{\sigma_0^2}\sum_{x \in X} x + \frac{\eta_\mu}{\alpha_\sigma^2}}{\frac{1}{\eta_\sigma^2} + \frac{n}{\sigma_0^2}} \quad \sigma_n^2 = \frac{1}{\frac{1}{\eta_\sigma^2} + \frac{n}{\sigma_0^2}}
+\end{align*} %]]&gt;&lt;/script&gt;
+
+&lt;p&gt;&lt;strong&gt;Basic Model 2&lt;/strong&gt;: With &lt;script type=&quot;math/tex&quot;&gt;\mu_0&lt;/script&gt; as a hyperamater.&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;% &lt;![CDATA[
+\begin{align*}
+\text{posterior: } &amp;p(\sigma^2|X,\mu_0,\beta) = \text{IG}(\sigma^2|\alpha_n,\beta_n), \quad \alpha_n = \zeta_\alpha + \frac{n}{2} \quad \beta_n = \zeta_\beta + \frac{1}{2}\sum_{x\in X}(x-\mu_0)\\
+\text{predictive distribution: } &amp; p(x^*|X,\mu_0,\zeta) = \frac{\Gamma(\zeta_\alpha + \frac{1}{2})}{\Gamma(\zeta_\alpha)} \frac{1}{(2\pi\zeta_\beta)^{\frac{1}{2}}}\frac{1}{\big(1+\frac{1}{2\zeta_\beta}(x^*-\mu_0)^2\big)^{\zeta_\alpha+\frac{1}{2}}}
+\end{align*} %]]&gt;&lt;/script&gt;
+
+&lt;p&gt;&lt;strong&gt;Joint-prior Model 1&lt;/strong&gt;: With a joint prior on both $\mu$ and $\sigma$ (Normal-Gamma prior)&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;% &lt;![CDATA[
+\begin{align*}
+\text{posterior: } &amp;p(\mu,\sigma^2|X,\gamma) = \text{NIG}(\mu,\sigma^2|\mu_n,\kappa_n,\alpha_n,\beta_n)\\
+&amp; \mu_n = \frac{\gamma_\kappa\gamma_\mu + \sum_{x \in X}x}{\frac{1}{\gamma_\kappa}+n}\\
+&amp; \frac{1}{\kappa_n} = \frac{1}{\gamma_\kappa} + n, \\
+&amp; \alpha_n = \gamma_\alpha + \frac{n}{2}\\
+&amp; \beta_n = \gamma_\beta + \frac{1}{2}\Big(\gamma_\mu^2\gamma_\kappa + \sum_{x\in X}(x-\mu_n^2\kappa_n)\Big)\\
+\text{predictive distribution: } &amp; \text{this is \textit{pending}}
+\end{align*} %]]&gt;&lt;/script&gt;
+
+</content>
+ </entry>
+ 
+ <entry>
+   <title>Create to understand</title>
+   <link href="http://localhost:4000/2017/02/07/generative/"/>
+   <updated>2017-02-07T22:56:35+00:00</updated>
+   <id>http://localhost:4000/archive/2017/02/07/generative</id>
+   <content type="html">&lt;h2 id=&quot;where-does-the-story-begin&quot;&gt;Where does the story begin?&lt;/h2&gt;
+
+&lt;p&gt;Generative modelling is one of the most fascinating paradigms of AI. And its story begins at observations of what we perceive as &lt;em&gt;phenomena&lt;/em&gt;. Colloquially, we associate the word phenomenon with an object, when that object is believed to exist. Furthermore, it exists because it got created. Often, in order to understand such a phenomemnon and its subsequent evolution, we attempt to recreate or mimic its underlying processes. For instance, the phenomenon of light. Through few centuries of reserch explorations, with experimental and theoretical conjecturing of laws of physics, we now have a &lt;em&gt;generative model&lt;/em&gt; for understanding light. Similarly, the generative paradigm of AI imparts understanding to an AI agent if it succeeds in mimicing a phenomenon.&lt;/p&gt;
+
+&lt;p&gt;Let’s say an AI agent is faced with the following observation - an image of a bird. Depending on its response we would impart different degree of intelligence to it.&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;(Of the choices I had,) I know this is a bird.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;With traditional discriminatively strategies I would be rather dubious about the whole notion of intelligence. There were limited choices and the agent was made to pick one. The hestiation to ascribe intelligence sources from cross-questioning. What’s the confidence of this choice? What’s the limit of agent’s capacity (any unseen images? imagge of objcets it previously did’t know of? or beyond) How did the agent arrive at its decision?&lt;/p&gt;
+
+&lt;p&gt;In short, if the agent discards more options in arriving at a decision, and gives confidence measuress on its decision, then perhaps it is more intelligent. Mathematically, this could involve discrinimating in high-dimensionlal spaces, or regressing to continous space. From an approximate reasoning perspective, this could involves choosing better priors. These could be explicit priors by incorporating appropriate relaxations or smoothening assumtioptions or implicit ones theough more data and better model defintions.&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Another image of a bird.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;Suppose an agent responded with an image. Since it succeeded in mimcing the phenomenon, it can be intuitively expected to showcase better intelligent behaviour. One such phenomemon where AI has had tremendous success is natural speech. AI claims to ‘understand’ spoken speech through its recreation. It achieves this via a surgical analysis of how elemental forms like sound waves, phonemes, words and sentences are strung together in its coherent synthesis.&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Birds have feathers and wings. So does the animal in this picture. Hence, perhaps this is a bird.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;The third leg of intelligence lies in the agents capacity to reason. This is highly intricate as a generalised model. However simplified versions of this are attainable through hybrid approaches of generative and discriminative modelling. Most deployed AI systems are minaturised versions of reasoning machines designed for specific tasks.&lt;/p&gt;
+
+&lt;h2 id=&quot;the-classical-origins&quot;&gt;The classical origins&lt;/h2&gt;
+
+&lt;p&gt;The overall objective of generative modelling can be summarised as writing a model $G$, such that one can sample &lt;script type=&quot;math/tex&quot;&gt;x_s&lt;/script&gt; from this model.&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;x_s \sim G(\theta)&lt;/script&gt;
+
+&lt;h3 id=&quot;sampling-from-distributions&quot;&gt;Sampling from distributions&lt;/h3&gt;
+
+&lt;p&gt;This &lt;script type=&quot;math/tex&quot;&gt;G&lt;/script&gt; often takes the form of a distribution. In data science, often a kneejerk reaction to a large set of real numbers is computing their mean and variance. Although mathematically grounded, implicit to this computation is a notion of existence. It is believed that there exists a ‘true’ distribution from which the numbers were generated. In such cases, when &lt;script type=&quot;math/tex&quot;&gt;G&lt;/script&gt; is a distribution, generative modelling can be summarised as modelling for &lt;script type=&quot;math/tex&quot;&gt;p&lt;/script&gt;, where,&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;x_s \sim p(x;\theta)&lt;/script&gt;
+
+&lt;p&gt;Once the parameters have been inferred, this model has various use cases. First, it can be used to sample new observations. And second, it allows us to compute predictive-likelihood for any new observations.&lt;/p&gt;
+
+&lt;h3 id=&quot;inference-in-generative-models&quot;&gt;Inference in Generative models&lt;/h3&gt;
+
+&lt;p&gt;Principled inference in these models can be arbitrarily hard. In fact, complexities start popping in even for the favourites like Gaussians. In practice, we tend to take MLE estimates as substitues for sufficient statistics of distributions of exponential family. However, if were to embark on the principled Bayesian approach, the journey is not that jolly. But with appropriate conjugate priors one can get significant distance.&lt;/p&gt;
+
+&lt;h3 id=&quot;implicit-generative-models&quot;&gt;Implicit generative models&lt;/h3&gt;
+
+&lt;p&gt;Prescribing a probabilistic model is not the only way to generate observations. When extensive physical mechanisms are known to govern a phenomenon, complex stochastic procedures can be written to directly generate observations. These implicit generative model are common approaches in climate, genetics and other physical systems. Inference methods used in these systems are clubbed under Approximate Bayesian Computation. Implicit models have garnered considerable traction with the introduction of Generative Adversarial Networks, which create instance by merely observing. In particular, they have been extremely successful in creating natural images without any mechanistic specification for creation og image-phenomenon.&lt;/p&gt;
+
+&lt;h3 id=&quot;how-to-validate-model-efficacy&quot;&gt;How to validate model-efficacy?&lt;/h3&gt;
+
+&lt;p&gt;A central concern to generative modelling is in validation of their efficiay. Why do its samples make sense? If the model is explicilt probabilistic, one could compute density estimates on the generated samples. This is non trivial and the doors only lead to echo chambers. The samples could be made sense of if there is a metric available for comparison. Again, for high dimensional spaces, this is not the case.&lt;/p&gt;
+
+&lt;p&gt;In this blog, I have attempted to entertain different paradigms and recent research advances under the umbrella of generative modelling. I plan to expand on the nuances through later blogs.&lt;/p&gt;
+</content>
+ </entry>
+ 
+ <entry>
+   <title>Common sense reduced to calculus. More calculus.</title>
+   <link href="http://localhost:4000/2016/12/10/vfe/"/>
+   <updated>2016-12-10T22:56:35+00:00</updated>
+   <id>http://localhost:4000/archive/2016/12/10/vfe</id>
+   <content type="html">&lt;h3 id=&quot;where-does-the-story-begin&quot;&gt;Where does the story begin?&lt;/h3&gt;
+
+&lt;p&gt;Every day, on numerous occasions, we tend to take decisions based on opinions. But this is not a point of dismay, becuase contrary to our speculation, reasoning with assumptions can be achieved within the elegance of just two guiding rules - the sum and product rule of probability theory. Assumptions, opinions, approximate knowledge or beliefs - they are merely placeholders when viewed through the mathematical construct of uncertainty. Uncertainty (or equivalently degree of belief) in the variability of &lt;script type=&quot;math/tex&quot;&gt;x&lt;/script&gt;, is quantified as a real number through a function &lt;script type=&quot;math/tex&quot;&gt;p(x)&lt;/script&gt;, more formally defined as probability. This function, by virtue of Cox’s axioms must uphold the rules of probability theory, in particular, the sum and product rule.&lt;/p&gt;
+
+&lt;p&gt;Sum-rule:&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;P(AB) + P(\bar{A}|B) = 1&lt;/script&gt;
+
+&lt;p&gt;Product-rule:&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;P(AB|C) = P(A|BC)P(BC)&lt;/script&gt;
+
+&lt;h3 id=&quot;how-does-this-play-with-ml-or-ai&quot;&gt;How does this play with ML or AI?&lt;/h3&gt;
+
+&lt;p&gt;Uncertainty has an all-pervasive presence in a statistical model - from noise in the observations, to a model’s belief about its parameters, to uncertainty in model predictions, to our belief about the model itself. But with its explicit and faithful representation in Bayesian probability theory, one can reason with it in a principled way.&lt;/p&gt;
+
+&lt;p&gt;Most ML tasks can be conveniently (and crudely) summarised as follows - a model, accompanied with its explicit and necessary assumptions based on prior knowledge, is capable of making predictions and performing inference in the light of some observations. In this simplistic pipeline, it is easy to examine how uncertainty factors at every step of modelling.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Uncertainty representation&lt;/strong&gt;: All the the believed uncertainties in the mathematical description of a model are stated via functional definitions - prior &lt;script type=&quot;math/tex&quot;&gt;p(\theta\vert m)&lt;/script&gt; , likelihood &lt;script type=&quot;math/tex&quot;&gt;p(D\vert\theta,m)&lt;/script&gt;, noise processes, among other expressions. These functional expressions and implcit conditioning, capture different conceptions of uncertainties like parametric and structural uncertainties.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Uncertainty propagation&lt;/strong&gt;: All the different kinds of uncertainties, implicit or explicit in an model should be propagated for decision-making (computing utilities for prediction or parameter-setting), which in general translates to prediction or inference. Mathematically, this involves the use of marginalisation principle (a direct application of sum and product rule).&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Inference and Prediction&lt;/strong&gt;: The task of inference or learning boils down to squeezing prior uncertainties &lt;script type=&quot;math/tex&quot;&gt;(p(\theta))&lt;/script&gt;, (often with respect to parameters, latent variables etc.) through the data, &lt;script type=&quot;math/tex&quot;&gt;D&lt;/script&gt;, to posterior uncertainties &lt;script type=&quot;math/tex&quot;&gt;p(\theta\vert D,m)&lt;/script&gt; (following Bayes’ rule).&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;% &lt;![CDATA[
+\begin{align}
+p(\theta|D,m) = \frac{p(D|\theta,m)p(\theta|m)}{p(D|m)} &amp;&amp; p(D|m) = \int p(D|\theta,m)p(\theta|m)\mathrm{d}\theta
+\end{align} %]]&gt;&lt;/script&gt;
+
+&lt;p&gt;The normalisation constant, &lt;script type=&quot;math/tex&quot;&gt;p(D\vert m)&lt;/script&gt;, is referred to as &lt;em&gt;Marginal Likelihood&lt;/em&gt; or &lt;em&gt;Model Evidence&lt;/em&gt;. At the level of conditioning on &lt;script type=&quot;math/tex&quot;&gt;m&lt;/script&gt;, Bayesian model selection is naturally implemented as Occam’s Razor. Moreover, these updated uncertainties in the posterior can be sequentially propagated while making predictions about the unobserved (new data, &lt;script type=&quot;math/tex&quot;&gt;D^*&lt;/script&gt;).&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;% &lt;![CDATA[
+\begin{align}
+p(D^*|D,m) &amp;= \int p(D^*,\theta\vert D,m)\mathrm{d}\theta\\
+           &amp;= \int p(D^*\vert\theta,D,m) p(\theta\vert D,m) \mathrm{d}\theta
+           &amp;= \int p(D^*\vert\theta,m) p(\theta\vert D,m) \mathrm{d}\theta
+\end{align} %]]&gt;&lt;/script&gt;
+
+&lt;h3 id=&quot;logistics-can-be-tricky&quot;&gt;Logistics can be tricky&lt;/h3&gt;
+
+&lt;p&gt;The elegance of first principles makes Bayesian reasoning extremely compelling. However, the theory merely guides on what-to-do and often fails on the how-to front. This latter one is where the practicality and feasibility are contested, or in other words computational and analytical intractability. And more often then what one would desire, these computations are intractable. Therefore, in practice a range of approximations are used. The inexpensive point estimates, being the most common ones where one settles for solutions from optimisation of maximum likelihood and maximum a posteriori. And then there are  deterministic approximations which harness structural understanding of the model like Variational mean field and Expectation Propagation.  Lastly, there are the computationally demanding but often asymptotically exact stochastic methods (like sampling).&lt;/p&gt;
+
+&lt;h3 id=&quot;common-sense-reduced-to-calculus-more-calculus&quot;&gt;Common sense reduced to calculus. More calculus.&lt;/h3&gt;
+
+&lt;p&gt;Variational Inference appends to the set of model assumptions, a parameterised approximate posterior ,&lt;script type=&quot;math/tex&quot;&gt;q_{\lambda}(\theta)&lt;/script&gt;. Thus, it encourages you to search for the posterior in a constrained space of possible choices. A space constrained by the choice of paramteric form and, spanned by the range of variational parameters. More importantly, the choice of approximate posterior is not arbitrary. The theory proposes another guiding principle - choose a distribution that most similar the exact posterior of the original model. Similarity, here, being measured via  Kullback–Leibler divergence (KL-divergence), &lt;script type=&quot;math/tex&quot;&gt;\mathcal{D}_{KL}&lt;/script&gt;, which is defined as follows,&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;\mathcal{D}_{KL}(q_{\lambda}(\theta)\vert\vert p(\theta\vert D,m)) \equiv \int q_{\lambda}(\theta)\log \frac{p(\theta\vert D,m)}{q(\theta)}\mathrm{d}\theta&lt;/script&gt;
+
+&lt;p&gt;Thus, the VI approach can be summaried as minimising&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;q_{\lambda^*}(\theta) = \text{argmin}  \mathcal{D}_{KL}(q_{\lambda}(\theta)\vert\vert p(\theta\vert D,m))&lt;/script&gt;
+
+&lt;p&gt;Moreover, the obtained approximate-posterior can replace the exact posterior for any further practical compuatations, like  prediction,&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;% &lt;![CDATA[
+\begin{align}
+&amp;&amp; q(D^*|D,m) = \int p(D^*\vert\theta,m) q_{\lambda^*}(\theta\vert D,m) \mathrm{d}\theta
+\end{align} %]]&gt;&lt;/script&gt;
+
+&lt;p&gt;The obvious point of contention here is, why this particular choice of similarity measure? And what are its qualitiative properties.&lt;/p&gt;
+
+&lt;h4 id=&quot;why-this-similarity-measure&quot;&gt;Why this similarity measure?&lt;/h4&gt;
+
+&lt;p&gt;This similarity measure naturally yields a lower bound for the marginal likelihood. A quantity, we would have maximised for during model selection. Thus, (hand-wavyly) we are assured that we are not very far from the ‘best-model’ search we had foresaken due to intractabilities.&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;% &lt;![CDATA[
+\begin{align}
+\mathcal{D}_{KL}(q_{\lambda}(\theta)\vert\vert p(\theta\vert D,m)) &amp;\equiv \int q_{\lambda}(\theta)\log \frac{q_{\lambda}(\theta)}{p(\theta\vert D,m)}\mathrm{d}\theta\\
+                 &amp;= \int q_{\lambda}(\theta)\log \frac{q_{\lambda}(\theta)p(D\vert m)}{p(\theta, D\vert m)}\mathrm{d}\theta\\
+                 &amp;= \int q_{\lambda}(\theta)\log \frac{q_{\lambda}(\theta)}{p(\theta, D\vert m)}\mathrm{d}\theta + \int q_{\lambda}(\theta)\log p(D\vert m) \mathrm{d}\theta\\
+                 &amp;= \int q_{\lambda}(\theta)\log \frac{q_{\lambda}(\theta)}{p(\theta, D\vert m)}\mathrm{d}\theta + \log p(D\vert m)
+\end{align} %]]&gt;&lt;/script&gt;
+
+&lt;p&gt;equivalently,&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;\log p(D\vert m) =   \int q_{\lambda}(\theta)\log \frac{p(\theta, D\vert m)}{q_{\lambda}(\theta)}\mathrm{d}\theta + {D}_{KL}(q_{\lambda}(\theta)\vert\vert p(\theta\vert D,m))&lt;/script&gt;
+
+</content>
+ </entry>
+ 
+ <entry>
+   <title>An introduction to Introduction to Artificial Intelligence</title>
+   <link href="http://localhost:4000/2016/12/01/intro/"/>
+   <updated>2016-12-01T22:56:35+00:00</updated>
+   <id>http://localhost:4000/archive/2016/12/01/intro</id>
+   <content type="html">&lt;p&gt;Textbooks offer a reliable, detailed and formal introduction to most subjects. However, introducing Machine Learning and AI isn’t the easiest nut to crack. There are disagreements within the community about what does and what doesn’t qualify as ML or AI. And then there are different philosophical viewpoints. Consider the modern wonder of Deep Learning, for instance, where different schools of thoughts (from cybernetics to connectionism to deep neural networks) have waxed and waned in popularity throughout the course of its history. And then there are the fundamentals of Probability theory whose formulation, both diverse and contentious, has evolved over centuries of thought. So I will begin with a less ambitious goal of sketching an introduction to introduction to ML. I will draw some motivation from differences in Mathematics and Physics textbooks with a hope to shed light on some qualitative aspects of ML and AI.&lt;/p&gt;
+
+&lt;p&gt;During my undergraduate education I managed to get hooked on to a few textbooks, two of which were  - Introduction to Topology and Modern Analysis by G. F. Simmons, and Feynman Lectures in Physics. Like most traditional texts in mathematics, Simmons’ book had a fairly regular structure. Each chapter had an introduction, followed by some to-the-point definitions which quickly led to the meat of the content  - theorems, proofs, lemmas and conjectures. The first two sections were tersely written. With the minimal usage of words, their rereads would often be carried out as news bulletins rituals. Simmons, however, was less conservative in the latter sections where the text had ample explanation and examples, making it a more natural read. Definitions and theorems were distinctly marked out with a font formatting. As if borrowed from a bag of universal truths, they were untouched by the language of the text.&lt;/p&gt;
+
+&lt;p&gt;Introductions in Feynman’s book or more generally in physics textbooks were vastly different. With the marvels and wonders the chapters promised of demystifying, I would often read, re-read and re-re-read the introductions itself. The scale of mysteries spanned across all powers of ten, from macroscopic galaxies to microscopic atoms and the accompaying prose was absolutely fascinating. In the text that followed, the trait of indisputability and universality lied with observations or phenomenon and not with the laws or theory. A theory was susceptible to change. It evolved as it was extended, challenged questioned, or debunked unlike the mathematical theorems where the truths were merely appended or reinterpretted.&lt;/p&gt;
+
+&lt;p&gt;Machine Learning, or the broader Artificial Intelligence emerged out as fields, or more strictly as terms, relatively recently in the taxonomy of science. Moreover, as they borrowed principles from a variety of other domains, there were multiple entry points available for introduction. For instance, an introductory texts could captivate a reader’s attention through aspects of human cognition or the meaning of intelligence. Equivalently, the text could delve into the conceptual frameworks for supervised-unsupervised learning, representation learning, graphical models or the 101 on statistics of regression. All of these vantage points are convincing as introductions but there are rarely beaded with definitions carved in stone. Contrary to my desire or taste, the defintions are fluidic, and pertinent only under context. Ironically the worst off is the elemental unit they all share and talk about, a model, which is unmistakably the most loosely defined term in ML’s vocabulary. Its amorphic quality is best examined through George EP Box’ epiphanic remark - &lt;em&gt;All models are wrong but some are useful.&lt;/em&gt;&lt;/p&gt;
+
+&lt;h2 id=&quot;where-does-the-story-begin&quot;&gt;Where does the story begin?&lt;/h2&gt;
+
+&lt;p&gt;It’s not all that bad.&lt;/p&gt;
+
+&lt;p&gt;The universality of mathematical reasoning can in many cases be reduced to logic, and most commonly, aristotalian logic, where a proposition is either true or false. As the propositions come together in a proof, the underlying reasoning surfaces out. This ascribes a character of clarity to the reasoned arguments which is one the hallmarks of this reasoning framework. The theory and hypothesis of physics is similarly backed with observations and empirical measurements of physical phenomenon. Classical thermodynamics is a quintessential example of this which as Einstein famously quoted, “&lt;em&gt;is the only physical theory of universal content which I am convinced will never be overthrown.&lt;/em&gt;”&lt;/p&gt;
+
+&lt;p&gt;In similar fashion, ML is borne out of reasoning under approximate knowledge. This setting closely mimics human reasoning or common sense, where things are rarely black and white, and arguments and conclusions are made under assumptions. This correspondence to common sense has been studied and demonstrated by many writers (Keynes, Jeffery, Polya, Cox, Tribus, de Fenneti and Rosenkrantz). And as with physical processes, data or observations substantiate as strongest evidence, which provides constant encouragement to a practitioner who is invested in the quest for better explanations.&lt;/p&gt;
+
+&lt;p&gt;The seemingly restrictive connotation of multiple viewpoints and vague definitions is surprisingly a strong suite of ML. ML offers a unique environment that embraces and encourages different approaches. It’s like wearing different hats in a detective investigation, each bestowed with its own set of rules and tradeoffs. Why inspect it from only one angle, when you could do it from two? Or even more? The jargon of ML is vast, and with the current buzz-ness surrounding ML and AI, the vocabulary is only getting larger, and boundaries are getting thinner. So perhaps it is sensible to shed away from a strict definition for ML and make peace with the expression, you’ll know it when you see it. And instead motivate an ML way of thinking. Why a particular modeling approach? What’s the broader context? Where do things unify? In short, what’s the story and where does it begin?&lt;/p&gt;
+</content>
+ </entry>
+ 
+ <entry>
+   <title>Introducing Lanyon</title>
    <link href="http://localhost:4000/2014/01/02/introducing-lanyon/"/>
    <updated>2014-01-02T00:00:00+00:00</updated>
-   <id>http://localhost:4000http://90percenthumour.com/archive//2014/01/02/introducing-lanyon</id>
+   <id>http://localhost:4000/archive/2014/01/02/introducing-lanyon</id>
    <content type="html">&lt;p&gt;Lanyon is an unassuming &lt;a href=&quot;http://jekyllrb.com&quot;&gt;Jekyll&lt;/a&gt; theme that places content first by tucking away navigation in a hidden drawer. It’s based on &lt;a href=&quot;http://getpoole.com&quot;&gt;Poole&lt;/a&gt;, the Jekyll butler.&lt;/p&gt;
 
 &lt;h3 id=&quot;built-on-poole&quot;&gt;Built on Poole&lt;/h3&gt;
@@ -61,7 +306,7 @@
    <title>Example content</title>
    <link href="http://localhost:4000/2014/01/01/example-content/"/>
    <updated>2014-01-01T00:00:00+00:00</updated>
-   <id>http://localhost:4000http://90percenthumour.com/archive//2014/01/01/example-content</id>
+   <id>http://localhost:4000/archive/2014/01/01/example-content</id>
    <content type="html">&lt;div class=&quot;message&quot;&gt;
   Howdy! This is an example blog post that shows several types of HTML content supported in this theme.
 &lt;/div&gt;
@@ -194,7 +439,7 @@
    <title>What's Jekyll?</title>
    <link href="http://localhost:4000/2013/12/31/whats-jekyll/"/>
    <updated>2013-12-31T00:00:00+00:00</updated>
-   <id>http://localhost:4000http://90percenthumour.com/archive//2013/12/31/whats-jekyll</id>
+   <id>http://localhost:4000/archive/2013/12/31/whats-jekyll</id>
    <content type="html">&lt;p&gt;&lt;a href=&quot;http://jekyllrb.com&quot;&gt;Jekyll&lt;/a&gt; is a static site generator, an open-source tool for creating simple yet powerful websites of all shapes and sizes. From &lt;a href=&quot;https://github.com/mojombo/jekyll/blob/master/README.markdown&quot;&gt;the project’s readme&lt;/a&gt;:&lt;/p&gt;
 
 &lt;blockquote&gt;

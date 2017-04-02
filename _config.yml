@@ -1,9 +1,11 @@
 # Site Info
-title: Codinfox Lanyon
-tagline: 'A Jekyll theme based on Lanyon'
+title: 90%Humour
+tagline: 'stories and musings from all walks of life'
 description: 'A Jekyll theme adapted from <a href="http://lanyon.getpoole.com/" target="_blank">Lanyon</a>. Made by <a href="http://codinfox.github.io" target="_blank">@codinfox</a>.'
 baseurl: "http://90percenthumour.com/archive/"
-logo: '/public/logo.png'
+#baseurl: "/archive"
+#url: http://90percenthumour.com/archive/
+logo: '/public/logo.jpg'
 
 # Site configurations
 gems:
@@ -15,8 +17,8 @@ excerpt_separator: "<!-- more -->"
 sass:
   style: compressed
   sass_dir: _scss    
-paginate: 5
-paginate_path: '/blog/page:num'
+paginate: 7
+paginate_path: '/page:num'
 permalink: pretty
 
 version: 1.0.0
@@ -37,15 +39,15 @@ author:
 # Navigation (2nd level links supported)
 nav:
   Home:           
-    - '/'
+    - 'http://90percenthumour.com'
   Blog:           
-    - '/blog/'
+    - '/'
     - { Categories: '/blog/categories/' }
     - { Tags: '/blog/tags/' }
   About:          
-    - '/about/'
-  Github Project: 
-    - 'http://90percenthumour.com/'
+    - 'http://90percenthumour.com/about/'
+#  Github Project: 
+#    - 'http://90percenthumour.com/'
 
 # Where are tags and categories displayed
 tag_page: '/blog/tags/'
@@ -58,5 +60,5 @@ hero:
 # Puglins
 mathjax: true # whether support mathjax
 google_analytics_token: 'UA-00000000-1' # leave blank if you don't want google analytics
-disqus_short_name: 'your_short_name' # leave blank if you don't want disqus
+disqus_short_name: 'ambrishrawat' # leave blank if you don't want disqus
 
